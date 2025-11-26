@@ -1,38 +1,46 @@
 # Ex18 Simulation of a Ticket Counter Using Queue (Linked List Implementation)
-## DATE: 8-10-2025
+## DATE: 30-10-2025
 ## AIM:
 To simulate the functioning of a ticket counter that operates on a First-In-First-Out (FIFO) basis using a queue implemented via a linked list in Java.
+
 ## Algorithm
 1. Start the program.
-2. Create a Node class with data and next attributes.
-3. Implement a Queue class with enqueue() and dequeue() methods.
-4. Enqueue customers (represented by integers or names).
-5. Dequeue each customer in FIFO order as they are served.
-6. Display the queue before and after serving customers.
-7. Stop the program.
- 
+2. Create a Queue using the LinkedList class.
+3. Enqueue (add) customers to the queue as they arrive.
+4. Display the current queue of customers.
+5. Dequeue (remove) customers from the queue one by one as they are served.
+6. Display which customer is being served and the remaining queue.
+7. Repeat until all customers are served.  
 
 ## Program:
 ```
-Program to simulate the functioning of a ticket counter that operates on a First-In-First-Out (FIFO)
+Program to functioning of a ticket counter that operates on a First-In-First-Out (FIFO)
 Developed by: GNANENDRAN N
-RegisterNumber: 212223240037
+Register Number: 212223240037 
 ```
 ```JAVA
+import java.util.Scanner;
+
 class Node {
-    String data;
+    String customerName;
     Node next;
-    Node(String data) {
-        this.data = data;
+
+    public Node(String name) {
+        this.customerName = name;
         this.next = null;
     }
 }
 
-class Queue {
-    Node front, rear;
-    
-    void enqueue(String data) {
-        Node newNode = new Node(data);
+class TicketQueue {
+    private Node front;
+    private Node rear;
+
+    public TicketQueue() {
+        this.front = this.rear = null;
+    }
+
+    public void enqueue(String customerName) {
+        Node newNode = new Node(customerName);
         if (rear == null) {
             front = rear = newNode;
             return;
@@ -41,26 +49,28 @@ class Queue {
         rear = newNode;
     }
 
-    void dequeue() {
+    public void dequeue() {
         if (front == null) {
-            System.out.println("Queue is empty.");
+            System.out.println("Queue is empty. No customer to serve.");
             return;
         }
-        System.out.println(front.data + " has been served.");
+        System.out.println("Serving customer: " + front.customerName);
         front = front.next;
-        if (front == null)
+        if (front == null) {
             rear = null;
+        }
     }
 
-    void display() {
+    public void displayQueue() {
         if (front == null) {
             System.out.println("Queue is empty.");
             return;
         }
+        System.out.print("Queue: ");
         Node temp = front;
-        System.out.print("Current Queue: ");
         while (temp != null) {
-            System.out.print(temp.data + " ");
+            System.out.print(temp.customerName);
+            if (temp.next != null) System.out.print(" -> ");
             temp = temp.next;
         }
         System.out.println();
@@ -69,22 +79,59 @@ class Queue {
 
 public class TicketCounter {
     public static void main(String[] args) {
-        Queue q = new Queue();
-        q.enqueue("Alice");
-        q.enqueue("Bob");
-        q.enqueue("Charlie");
-        q.enqueue("Diana");
-        q.display();
-        q.dequeue();
-        q.display();
+        Scanner scanner = new Scanner(System.in);
+        TicketQueue queue = new TicketQueue();
+        String command;
+
+        //System.out.println("Ticket Counter Simulation");
+        //System.out.println("Commands: enqueue <name>, dequeue, display, exit");
+
+        while (true) {
+            //System.out.print("Enter command: ");
+
+            // Fix for NoSuchElementException
+            if (!scanner.hasNextLine()) {
+                //System.out.println("No more input. Exiting simulation.");
+                break;
+            }
+
+            command = scanner.nextLine().trim();
+            if (command.isEmpty()) continue;
+
+            String[] parts = command.split(" ");
+
+            switch (parts[0]) {
+                case "enqueue":
+                    if (parts.length >= 2) {
+                        queue.enqueue(parts[1]);
+                    } else {
+                        System.out.println("Please provide a customer name.");
+                    }
+                    break;
+                case "dequeue":
+                    queue.dequeue();
+                    break;
+                case "display":
+                    queue.displayQueue();
+                    break;
+                case "exit":
+                    System.out.println("Exiting simulation.");
+                    scanner.close();
+                    return;
+                default:
+                    System.out.println("Invalid command.");
+            }
+        }
+
+        scanner.close(); // Safe close
     }
-} 
-*/
+}
+
 ```
 
 ## Output:
+<img width="1106" height="719" alt="image" src="https://github.com/user-attachments/assets/c78629aa-af80-4fcd-b8bc-b8a29aad63c6" />
 
-<img width="380" height="102" alt="image" src="https://github.com/user-attachments/assets/cb065e4b-eac2-4808-950e-08f08b566715" />
 
 
 ## Result:
