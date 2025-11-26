@@ -1,60 +1,76 @@
 # Ex19 Palindrome Check Using Deque
-## DATE: 8-10-25
+## DATE: 04-11-2025
 ## AIM:
 To design a program that checks whether a given message is a palindrome by removing all non-alphanumeric characters, converting all characters to lowercase, and using a deque data structure for comparison.
 
+
 ## Algorithm
 1. Start the program.
-2. Read the input string from the user.
-3. Remove all non-alphanumeric characters and convert the string to lowercase.
-4. Use a deque to store characters of the string.
-5. Compare characters from both ends of the deque.
-6. If all pairs match, it’s a palindrome; otherwise, it’s not.
-7. Display the result.
-  
+2. Read an input string from the user.
+3. Remove all non-alphanumeric characters from the string.
+4. Convert all characters to lowercase for uniform comparison.
+5. Create a deque (double-ended queue).
+6. Insert each character of the cleaned string into the deque.
+7. While the deque has more than one element:
+   - Remove one character from the front and one from the rear.
+   - Compare both characters.
+   - If they are not equal, the string is not a palindrome.
+8. If all pairs match, the string is a palindrome.
+9. Display the result.
 
 ## Program:
 ```
-Program to check whether a given message is a palindrome by removing all non-alphanumeric characters.
+Program to checks whether a given message is a palindrome by removing all non-alphanumeric characters.
 Developed by: GNANENDRAN N
-RegisterNumber: 212223240037
+Register Number: 212223240037
 ```
 ```JAVA
 import java.util.*;
 
-public class PalindromeDeque {
-    public static boolean isPalindrome(String str) {
-        Deque<Character> deque = new LinkedList<>();
-        for (char c : str.toCharArray()) {
-            if (Character.isLetterOrDigit(c)) {
-                deque.add(Character.toLowerCase(c));
+public class PalindromeChecker {
+    
+    public static boolean isPalindrome(String message) {
+        // Convert to lowercase and remove non-alphanumeric characters
+        message = message.toLowerCase().replaceAll("[^a-z0-9]", "");
+        
+        Deque<Character> deque = new ArrayDeque<>();
+        
+        // Add all characters to the deque
+        for (char c : message.toCharArray()) {
+            deque.addLast(c);
+        }
+        
+        // Compare characters from both ends
+        while (deque.size() > 1) {
+            if (deque.pollFirst() != deque.pollLast()) {
+                return false;  // Mismatch found
             }
         }
-
-        while (deque.size() > 1) {
-            if (deque.removeFirst() != deque.removeLast())
-                return false;
-        }
-        return true;
+        
+        return true;  // All characters matched
     }
 
     public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        System.out.print("Enter a message: ");
-        String message = sc.nextLine();
-        if (isPalindrome(message))
+        Scanner scanner = new Scanner(System.in);
+
+        //System.out.println("Enter a message:");
+        String input = scanner.nextLine();
+
+        if (isPalindrome(input)) {
             System.out.println("Palindrome");
-        else
-            System.out.println("Not a Palindrome");
-        sc.close();
+        } else {
+            System.out.println("Not a palindrome");
+        }
+
+        scanner.close();
     }
-}  
-*/
+}
+
 ```
 
 ## Output:
+<img width="384" height="136" alt="image" src="https://github.com/user-attachments/assets/ff3377d2-a5f8-40c7-944d-274f491e7222" />
 
-<img width="473" height="71" alt="image" src="https://github.com/user-attachments/assets/47f3d3be-4165-463e-9145-19c5cc8489e1" />
 
 
 ## Result:
