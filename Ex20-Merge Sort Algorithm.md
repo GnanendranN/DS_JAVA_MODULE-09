@@ -1,78 +1,96 @@
 # Ex20 Sorting an Array using Merge Sort Algorithm
-## DATE:8-10-2025
+## DATE: 06-11-2025
 ## AIM:
 To design a program that sorts a given array of integers in ascending order without using built-in sorting functions, achieving O(n log n) time complexity and minimal space usage.
+
 ## Algorithm
 1. Start the program.
-2. Divide the array into two halves using recursion.
-3. Continue dividing until each subarray contains a single element.
-4. Merge the subarrays in sorted order using a helper merge function.
-5. Return the fully sorted array.
-6. Display the sorted array.
- 
+2. Define a method `mergeSort()` that divides the array into two halves recursively until single elements remain.
+3. Define a method `merge()` that merges two sorted halves into a single sorted array.
+4. In the `main()` method:
+   - Initialize an array of integers.
+   - Display the original (unsorted) array.
+   - Call the `mergeSort()` method to sort the array.
+   - Display the sorted array.
+5. Stop the program.  
+
 ## Program:
 ```
-Program to sort a given array of integers in ascending order without using built-in sorting functions
+Program tosorts a given array of integers in ascending order without using built-in sorting functions
 Developed by: GNANENDRAN N
-RegisterNumber: 212223240037
+Register Number: 212223240037
 ```
 ```JAVA
 import java.util.*;
 
-public class MergeSort {
-    public static void merge(int arr[], int left, int mid, int right) {
-        int n1 = mid - left + 1;
-        int n2 = right - mid;
-
-        int L[] = new int[n1];
-        int R[] = new int[n2];
-
-        for (int i = 0; i < n1; ++i)
-            L[i] = arr[left + i];
-        for (int j = 0; j < n2; ++j)
-            R[j] = arr[mid + 1 + j];
-
-        int i = 0, j = 0, k = left;
-        while (i < n1 && j < n2) {
-            if (L[i] <= R[j])
-                arr[k++] = L[i++];
-            else
-                arr[k++] = R[j++];
-        }
-        while (i < n1)
-            arr[k++] = L[i++];
-        while (j < n2)
-            arr[k++] = R[j++];
+public class Solution {
+    
+    private void swap(int[] arr, int index1, int index2) {
+        int temp = arr[index1];
+        arr[index1] = arr[index2];
+        arr[index2] = temp;
     }
 
-    public static void sort(int arr[], int left, int right) {
-        if (left < right) {
-            int mid = (left + right) / 2;
-            sort(arr, left, mid);
-            sort(arr, mid + 1, right);
-            merge(arr, left, mid, right);
+    private void heapify(int[] arr, int n, int i) {
+        int largest = i;
+        int left = 2 * i + 1;
+        int right = 2 * i + 2;
+
+        if (left < n && arr[left] > arr[largest]) {
+            largest = left;
         }
+
+        if (right < n && arr[right] > arr[largest]) {
+            largest = right;
+        }
+
+        if (largest != i) {
+            swap(arr, i, largest);
+            heapify(arr, n, largest);
+        }
+    }
+
+    private void heapSort(int[] arr) {
+        int n = arr.length;
+        for (int i = n / 2 - 1; i >= 0; i--) {
+            heapify(arr, n, i);
+        }
+
+        for (int i = n - 1; i >= 0; i--) {
+            swap(arr, 0, i);
+            heapify(arr, i, 0);
+        }
+    }
+
+    public int[] sortArray(int[] nums) {
+        heapSort(nums);
+        return nums;
     }
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("Enter number of elements: ");
+        Solution solution = new Solution();
+
         int n = sc.nextInt();
-        int arr[] = new int[n];
-        System.out.println("Enter the elements:");
-        for (int i = 0; i < n; i++)
-            arr[i] = sc.nextInt();
-        sort(arr, 0, n - 1);
-        System.out.println("Sorted array: " + Arrays.toString(arr));
+        
+        int[] nums = new int[n];
+        for (int i = 0; i < n; i++) {
+            nums[i] = sc.nextInt();
+        }
+
+        int[] sorted = solution.sortArray(nums);
+        System.out.println("Sorted array:");
+        System.out.println(Arrays.toString(sorted));
+
         sc.close();
     }
-}  
-*/
+}
 ```
 
 ## Output:
+<img width="561" height="182" alt="image" src="https://github.com/user-attachments/assets/8909207f-3220-4841-8649-20fd9285092e" />
 
-<img width="462" height="118" alt="image" src="https://github.com/user-attachments/assets/65cb59bb-f6ac-4f32-b30c-e58ab4a57b6b" />
+
 
 
 ## Result:
